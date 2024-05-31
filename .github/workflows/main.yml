@@ -39,7 +39,7 @@ jobs:
       shell: bash
 
     - name: Authenticate with Firebase CLI
-      run: firebase login:ci
+      run: firebase login:ci --interactive
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
