@@ -21,20 +21,12 @@ jobs:
     - name: Install dependencies
       run: flutter pub get
 
-    - name: Build Flutter app
-      run: flutter build web
+    - name: Build Flutter APK
+      run: flutter build apk --release
 
-    - name: Deploy to Firebase Hosting
-      uses: w9jds/firebase-action@master
+    # Optionally, upload the APK as a build artifact
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v2
       with:
-        args: deploy --only hosting
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
-
-
-    - name: Deploy to Firebase Hosting
-      uses: w9jds/firebase-action@master
-      with:
-        args: deploy --only hosting
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+        name: app-release.apk
+        path: build/app/outputs/flutter-apk/app-release.apk
