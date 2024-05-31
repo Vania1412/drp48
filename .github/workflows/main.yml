@@ -1,80 +1,35 @@
-name: Full CI/CD Pipeline
+name: Flutter CI/CD with Firebase
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  build-react:
-
+  build:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
-
-    - name: Install dependencies
-      run: npm install
-      working-directory: ./drp48/my-app
-
-    - name: Build project
-      run: npm run build
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./drp48/my-app/build 
-
-  build-flutter:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Install Flutter
+    - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '2.10.5'
+        flutter-version: '2.x'
 
     - name: Install dependencies
       run: flutter pub get
 
-    - name: Build APK
-      run: flutter build apk --release
+    - name: Build Flutter app
+      run: flutter build web
 
-    - name: Upload APK
-      uses: actions/upload-artifact@v2
+    - name: Deploy to Firebase Hosting
+      uses: w9jds/firebase-action@master
       with:
-        name: app-release.apk
-        path: build/app/outputs/flutter-apk/app-release.apk
-
-  deploy-firebase:
-    needs: [build-flutter, build-react]
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Upload to Firebase App Distribution
-      uses: wzieba/Firebase-Distribution-Github-Action@v1
-      with:
-        appId: ${{ secrets.FIREBASE_APP_ID }}
-        token: ${{ secrets.FIREBASE_TOKEN }}
-        groups: testers
-        file: build/app/outputs/flutter-apk/app-release.apk
+        args: deploy --only hosting
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
 
     - name: Deploy to Firebase Hosting
