@@ -38,6 +38,11 @@ jobs:
       run: echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" > $HOME/google-credentials.json
       shell: bash
 
+    - name: Authenticate with Firebase CLI
+      run: firebase login:ci
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
     - name: Deploy to Firebase App Distribution
       env:
         GOOGLE_APPLICATION_CREDENTIALS: $HOME/google-credentials.json
