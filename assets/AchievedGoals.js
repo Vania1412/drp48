@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Text, Button, FlatList, TextInput } from 'react-native';
 
-const AchievedGoals = () => {
+const AchievedGoals = () => { 
   const [achievedGoals, setAchievedGoals] = React.useState([]);
 
   return (
