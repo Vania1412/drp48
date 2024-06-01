@@ -1,4 +1,0 @@
-#Fri May 31 19:52:49 GMT+08:00 2024
-base.0=C\:\\Users\\Rainie\\saving_goal\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
-path.0=classes.dex
-renamed.0=classes.dex
