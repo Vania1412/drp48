@@ -35,6 +35,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '18'
+          
+  deploy:
+      runs-on: ubuntu-latest
+      steps:
 
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
